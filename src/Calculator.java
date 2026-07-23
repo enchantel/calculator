@@ -36,6 +36,11 @@ public class Calculator {
     JPanel displayPanel = new JPanel();
     JPanel buttonsPanel = new JPanel();
 
+    //two values being calculated 
+    String A = "0";
+    String operator = null;
+    String B = null;
+
     //opens the windows
     Calculator() {
         frame.setVisible(true);
@@ -95,17 +100,67 @@ public class Calculator {
                     String buttonValue = button.getText();
 
                     if (Arrays.asList(rightSymbols).contains(buttonValue)) {
+                        if (buttonValue == "=") {
+                            if (A != null) {
+                                B = displayLabel.getText();
+                                double numA = Double.parseDouble(A);
+                                double numB = Double.parseDouble(B);
 
-                    }
-                    else if (Arrays.asList(topSymbols).contains(buttonValue)) {
+                                if (operator == "+") {
+                                    displayLabel.setText(removeZeroDecimal(numA + numB));
+                                }
+                                else if (operator == "-") {
+                                    displayLabel.setText(removeZeroDecimal(numA - numB));
+                                }
+                                else if (operator == "/") {
+                                    displayLabel.setText(removeZeroDecimal(numA / numB));
+                                }
+                                else if (operator == "×") {
+                                    displayLabel.setText(removeZeroDecimal(numA * numB));
+                                }
+                                clearAll();
+                            }
+                        }
                     
+                        else if ("+-/×".contains(buttonValue)) {
+                            if (operator == null) {
+                                A = displayLabel.getText();
+                                displayLabel.setText("0");
+                                B = "0";
+                            }
+                            operator = buttonValue;
+                        }
+                    }
+                    
+                    else if (Arrays.asList(topSymbols).contains(buttonValue)) {
+                        if (buttonValue.equals("C")) {
+                            clearAll();
+                            displayLabel.setText("0");
+                        }
+                        else if (buttonValue.equals("%")) {
+                                double numDisplay = Double.parseDouble(displayLabel.getText());
+                                numDisplay /= 100;
+                                displayLabel.setText(removeZeroDecimal(numDisplay));
+                        }
+
+                        else if (buttonValue.equals("<-")) {
+                            String num = displayLabel.getText(); 
+                            if (num.length() > 1) {
+                                displayLabel.setText(num.substring(0, num.length() - 1));
+                            } else {
+                                clearAll();
+                                displayLabel.setText("0");
+                            }
+                        }
                     }
                     else { //digits or decimal
-                        if (buttonValue == ".") {
-                            
+                        if (buttonValue.equals(".")) {
+                            if (!displayLabel.getText().contains(".")) {
+                                displayLabel.setText(displayLabel.getText() + buttonValue);
+                            }
                         }
                         else if ("0123456789".contains(buttonValue)) {
-                            if (displayLabel.getText() == "0") {
+                            if (displayLabel.getText().equals("0")) {
                                 displayLabel.setText(buttonValue);
                             }
                             else {
@@ -121,4 +176,20 @@ public class Calculator {
 
     }
 
+    void clearAll() {
+        A = "0";
+        operator = null;
+        B = null;
+    }
+
+    String removeZeroDecimal(double num) {
+        if (num % 1 == 0) {
+            return Integer.toString((int) num);
+        }
+        return Double.toString(num);
+    }
+
+    void setOperator(String op) {
+        operator = op;
+    }
 }
