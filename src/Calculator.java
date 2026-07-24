@@ -168,6 +168,10 @@ public class Calculator {
                                 displayLabel.setText(displayLabel.getText() + buttonValue);
                             }
                         }
+                        else if (buttonValue.equals("√")) {
+                            double num = Double.parseDouble(displayLabel.getText());
+                            displayLabel.setText(removeZeroDecimal(Math.sqrt(num)));
+                        }
                         else if ("0123456789".contains(buttonValue)) {
                             if (displayLabel.getText().equals("0")) {
                                 displayLabel.setText(buttonValue);
