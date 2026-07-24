@@ -28,6 +28,8 @@ public class Calculator {
     String[] rightSymbols = {"/", "×", "-", "+", "="};
     String[] topSymbols = {"C", "%", "<-"};
 
+    java.net.URL url = ClassLoader.getSystemResource("icon.png");
+
     //this creates the window and allows it to be edited
     JFrame frame = new JFrame("Calculator");
 
@@ -43,6 +45,13 @@ public class Calculator {
 
     //opens the windows
     Calculator() {
+        //for icon
+        if (url != null) {
+            Toolkit kit = Toolkit.getDefaultToolkit();
+            Image img = kit.createImage(url);
+            frame.setIconImage(img);
+        }
+
         frame.setVisible(true);
         frame.setSize(windowWidth, windowHeight); //sets height and width
         frame.setLocationRelativeTo(null); //centers the window
